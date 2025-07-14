@@ -4,6 +4,7 @@ import { SideMenu } from './SideMenu.js';
 import { SettingsService } from '../services/SettingsService.js';
 import { BottomMenu } from './BottomMenu.js';
 
+// Importa as Views
 import { HomeView } from '../views/HomeView.js';
 import { ProfileView } from '../views/ProfileView.js';
 import { SettingsView } from '../views/SettingsView.js';
@@ -11,21 +12,23 @@ import { SettingsView } from '../views/SettingsView.js';
 export class App {
     #profileService;
     #settingsService;
-    #allProfiles = [];
+    #seenService;
     
     #appElement;
     #mainContentElement;
     #router;
 
-    constructor(appElement, profileService) {
+    constructor(appElement, profileService, seenService) {
         this.#appElement = appElement;
         this.#profileService = profileService;
         this.#settingsService = new SettingsService();
+        this.#seenService = seenService; 
     }
 
     async init() {
         this.#settingsService.init();
-        this.#allProfiles = await this.#profileService.fetchProfiles();
+
+        await this.#profileService.fetchInitialProfiles();
         
         this.#renderLayout();
         this.#setupRouter();
@@ -40,7 +43,7 @@ export class App {
 
     #setupRouter() {
         const routes = [
-            { path: '/', view: (outlet) => new HomeView(this.#allProfiles).render(outlet) },
+            { path: '/', view: (outlet) => new HomeView(this.#profileService, this.#seenService).render(outlet) },
             { path: '/profile', view: (outlet) => new ProfileView(this.#settingsService).render(outlet) },
             { path: '/settings', view: (outlet) => new SettingsView(this.#settingsService).render(outlet) },
             { path: '/matches', view: (outlet) => outlet.innerHTML = '<h2>Matches (em construção)</h2>' },
