@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Camila",
+    "age": 26,
+    "bio": "Amante de fotografia e viagens. Procurando alguém para explorar o mundo 📸✈️",
+    "image": "assets/images/profile1.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Juliana",
+    "age": 29,
+    "bio": "Desenvolvedora e gamer nas horas vagas. Me vença no Mario Kart e eu pago o jantar.",
+    "image": "assets/images/profile2.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Beatriz",
+    "age": 24,
+    "bio": "Estudante de arquitetura. Adoro um bom café e conversas sobre arte.",
+    "image": "assets/images/profile3.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Larissa",
+    "age": 27,
+    "bio": "Personal trainer. Se você gosta de acordar cedo para malhar, já temos algo em comum.",
+    "image": "assets/images/profile4.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Fernanda",
+    "age": 31,
+    "bio": "Cozinheira de mão cheia. Minha linguagem do amor é fazer um bom prato de massa.",
+    "image": "assets/images/profile5.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Mariana",
+    "age": 25,
+    "bio": "Música é minha paixão. Toco violão e amo ir a shows de rock alternativo.",
+    "image": "assets/images/profile6.jpg"
+  }
+]
