@@ -1,8 +1,9 @@
 export class ProfileService {
     #profiles = [];
+    #apiUrl; 
 
-    constructor(jsonPath) {
-        this.jsonPath = jsonPath;
+    constructor(apiUrl) {
+        this.#apiUrl = apiUrl;
     }
 
     async fetchProfiles() {
@@ -11,14 +12,24 @@ export class ProfileService {
         }
 
         try {
-            const response = await fetch(this.jsonPath);
+            const response = await fetch(this.#apiUrl);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            this.#profiles = await response.json();
+            const data = await response.json();
+
+            this.#profiles = data.results.map(character => {
+                return {
+                    name: character.name,
+                    age: character.species, 
+                    bio: `A(n) ${character.species} from ${character.origin.name}. Currently ${character.status}.`,
+                    image: character.image
+                };
+            });
+            
             return this.#profiles;
         } catch (error) {
-            console.error("Could not fetch profiles:", error);
+            console.error("Could not fetch profiles from API:", error);
             return [];
         }
     }

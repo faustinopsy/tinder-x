@@ -3,7 +3,9 @@ import { ProfileService } from './services/ProfileService.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const appElement = document.getElementById('app');
-    const profileService = new ProfileService('../../data/profiles.json');
+    
+    const apiUrl = 'https://rickandmortyapi.com/api/character';
+    const profileService = new ProfileService(apiUrl);
     
     const myApp = new App(appElement, profileService);
     myApp.init();
