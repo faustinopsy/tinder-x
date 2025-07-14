@@ -24,11 +24,22 @@ export class App {
 
     async init() {
         this.#settingsService.init();
-
         this.#allProfiles = await this.#profileService.fetchProfiles();
         
         this.#renderLayout();
         
+        this.#setupRouter();
+
+        document.addEventListener('setting-changed', (e) => {
+            if (e.detail.key === 'menuStyle') {
+                this.#renderLayout();
+                this.#setupRouter(); 
+                this.#router.navigate(window.location.pathname);
+            }
+        });
+    }
+
+    #setupRouter() {
         const routes = [
             { path: '/', view: (outlet) => this.#renderHomeView(outlet) },
             { path: '/profile', view: (outlet) => this.#renderGenericView(outlet, 'Ajustes de Perfil') },
@@ -37,13 +48,6 @@ export class App {
         ];
         
         this.#router = new Router(routes, this.#mainContentElement);
-
-        document.addEventListener('setting-changed', (e) => {
-            if (e.detail.key === 'menuStyle') {
-                this.#renderLayout();
-                this.#router.navigate(window.location.pathname);
-            }
-        });
     }
 
     #renderLayout() {
@@ -62,13 +66,16 @@ export class App {
             const header = new Header();
             this.#sideMenu = new SideMenu();
             const { menu: menuElement, overlay: overlayElement } = this.#sideMenu.render();
-            document.addEventListener('toggleMenu', () => this.#sideMenu.open(), { once: true });
+            
+            document.addEventListener('toggleMenu', () => this.#sideMenu.open());
+
             this.#appElement.append(header.render(), this.#mainContentElement, menuElement, overlayElement);
-        } else {
+        } else { 
             const bottomMenu = new BottomMenu();
             this.#appElement.append(this.#mainContentElement, bottomMenu.render());
         }
     }
+
     #renderHomeView(outlet) {
         if (this.#allProfiles.length === 0) {
             outlet.innerHTML = `<p style="text-align: center; color: var(--text-secondary-color); padding: 20px;">Nenhum perfil encontrado.</p>`;
@@ -156,7 +163,7 @@ export class App {
             </div>
 
             <div class="settings-group">
-                <div class="settings-group__title">Cores do tema:</div>
+                <div class.settings-group__title">Cores do tema:</div>
                 <div class="settings-options">
                     <div class="settings-option ${currentTheme === 'dark-yellow' ? 'active' : ''}" data-key="theme" data-value="dark-yellow">
                         <div class="color-preview"></div>
