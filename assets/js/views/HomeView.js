@@ -57,7 +57,6 @@ export class HomeView {
                 currentCardElement.remove();
                 this.#currentIndex++;
                 
-                // Gatilho para buscar mais perfis: quando restarem 5 ou menos na fila.
                 if (this.#allProfiles.length - this.#currentIndex < 5) {
                     this.#profileService.fetchMoreProfiles();
                 }
