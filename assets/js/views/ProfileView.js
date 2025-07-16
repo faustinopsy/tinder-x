@@ -8,6 +8,7 @@ export class ProfileView {
     render(outlet) {
         const currentUserGender = this.#settingsService.get('userGender');
         const currentUserInterest = this.#settingsService.get('userInterest');
+        
         outlet.innerHTML = `
             <div class="settings-page">
                 <h2>Meu Perfil</h2>
@@ -34,7 +35,6 @@ export class ProfileView {
                     </div>
                 </div>
             </div>
-
             <div class="settings-group">
                 <div class="settings-group__title">Tenho Interesse Em:</div>
                 <div class="settings-options">

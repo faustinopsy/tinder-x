@@ -24,8 +24,10 @@ export class App {
     async init() {
         this.#settingsService.init();
         await this.#profileService.fetchInitialProfiles();
+        
         this.#renderLayout();
         this.#setupRouter();
+
         document.addEventListener('setting-changed', (e) => {
             if (e.detail.key === 'menuStyle') {
                 this.#renderLayout();
@@ -41,6 +43,7 @@ export class App {
             { path: '/settings', view: (outlet) => new SettingsView(this.#settingsService).render(outlet) },
             { path: '/matches', view: (outlet) => { outlet.innerHTML = '<h2>Matches (em construção)</h2>' } },
         ];
+        
         this.#router = new Router(routes, this.#mainContentElement);
     }
 

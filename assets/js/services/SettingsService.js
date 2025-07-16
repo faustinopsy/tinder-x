@@ -1,7 +1,9 @@
 export class SettingsService {
     #defaults = {
         theme: 'dark-yellow',
-        menuStyle: 'bottom'
+        menuStyle: 'bottom',
+        userGender: 'non-binary',
+        userInterest: 'all'
     };
 
     constructor() {
