@@ -1,3 +1,5 @@
+import { AuthService } from './AuthService.js';
+
 export class Router {
     #routes = [];
     #outlet;
@@ -5,12 +7,9 @@ export class Router {
     constructor(routes, outletElement) {
         this.#routes = routes;
         this.#outlet = outletElement;
-        this.#listen();
-        this.#resolve();
-    }
-
-    #listen() {
+        
         window.addEventListener('popstate', () => this.#resolve());
+
         document.body.addEventListener('click', e => {
             const link = e.target.closest('a');
             if (!link || !link.hasAttribute('href')) return;
@@ -21,6 +20,8 @@ export class Router {
             e.preventDefault();
             this.navigate(href);
         });
+
+        this.#resolve();
     }
 
     navigate(path) {
@@ -32,15 +33,27 @@ export class Router {
     #resolve() {
         const path = window.location.pathname;
         const route = this.#routes.find(r => r.path === path);
-        
-        this.#updateActiveLinks(path);
+        const authService = new AuthService(); 
+
+        if (!route) {
+            this.navigate('/');
+            return;
+        }
+
+        if (route.protected && !authService.isAuthenticated()) {
+            this.navigate('/login');
+            return; 
+        }
+
+        const publicAuthRoutes = ['/login', '/register'];
+        if (publicAuthRoutes.includes(path) && authService.isAuthenticated()) {
+            this.navigate('/');
+            return;
+        }
 
         this.#outlet.innerHTML = '';
-        if (route) {
-            route.view(this.#outlet);
-        } else {
-            this.navigate('/');
-        }
+        route.view(this.#outlet);
+        this.#updateActiveLinks(path);
     }
 
     #updateActiveLinks(currentPath) {

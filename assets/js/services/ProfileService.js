@@ -1,3 +1,4 @@
+import { AuthService } from './AuthService.js';
 export class ProfileService {
     #allProfiles = [];
     #apiUrl = 'http://localhost:8080';
@@ -19,9 +20,17 @@ export class ProfileService {
 
     async fetchMoreProfiles() {
         const endpoint = `${this.#apiUrl}/deck`;
+        const authService = new AuthService();
+
         console.log(`Buscando perfis do backend: ${endpoint}`);
         try {
-            const response = await fetch(endpoint);
+            const response = await fetch(endpoint, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...authService.getAuthHeaders()
+                }
+            });
             if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
             const profilesFromApi = await response.json();
             

@@ -326,3 +326,59 @@ html, body {
     background-color: #f0f2f5;
     border-color: #ddd;
 }
+.form-container {
+    padding: 20px;
+    max-width: 350px;
+    margin: 40px auto;
+}
+.form-container h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-secondary-color);
+    font-size: 0.9rem;
+}
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+.form-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.error-message {
+    color: #ff4d4d;
+    text-align: center;
+    min-height: 20px;
+    font-size: 0.9rem;
+}
+.form-switch {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+.form-switch a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
