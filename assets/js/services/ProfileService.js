@@ -1,7 +1,8 @@
 import { AuthService } from './AuthService.js';
 export class ProfileService {
     #allProfiles = [];
-    #apiUrl = 'http://localhost:8080';
+    authService = new AuthService();
+    #apiUrl = this.authService.apiUrl;
     #seenService;
 
     constructor(seenService) {
@@ -20,7 +21,7 @@ export class ProfileService {
 
     async fetchMoreProfiles() {
         const endpoint = `${this.#apiUrl}/deck`;
-        const authService = new AuthService();
+        
 
         console.log(`Buscando perfis do backend: ${endpoint}`);
         try {
@@ -28,7 +29,7 @@ export class ProfileService {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    ...authService.getAuthHeaders()
+                    ...this.authService.getAuthHeaders()
                 }
             });
             if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);

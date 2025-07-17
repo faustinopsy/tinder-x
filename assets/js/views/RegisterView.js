@@ -83,6 +83,8 @@ export class RegisterView {
         form.querySelectorAll('.settings-option').forEach(option => {
             option.addEventListener('click', () => {
                 const key = option.dataset.key;
+                const value = option.dataset.value;
+                this.#settingsService.save(key, value);
                 form.querySelectorAll(`.settings-option[data-key="${key}"]`).forEach(el => el.classList.remove('active'));
                 option.classList.add('active');
             });

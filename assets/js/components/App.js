@@ -6,7 +6,8 @@ import { HomeView } from '../views/HomeView.js';
 import { ProfileView } from '../views/ProfileView.js';
 import { SettingsView } from '../views/SettingsView.js';
 import { LoginView } from '../views/LoginView.js';
-    import { RegisterView } from '../views/RegisterView.js';
+import { RegisterView } from '../views/RegisterView.js';
+import { MatchesView } from '../views/MatchesView.js';
 
 export class App {
     #profileService;
@@ -46,7 +47,7 @@ export class App {
             { path: '/', view: (outlet) => new HomeView(this.#profileService, this.#seenService).render(outlet), protected: true },
             { path: '/profile', view: (outlet) => new ProfileView(this.#settingsService).render(outlet), protected: true },
             { path: '/settings', view: (outlet) => new SettingsView(this.#settingsService).render(outlet), protected: true },
-            { path: '/matches', view: (outlet) => { outlet.innerHTML = '<h2>Matches (em construção)</h2>' }, protected: true },
+            { path: '/matches', view: (outlet) => new MatchesView().render(outlet), protected: true },
         ];
         
         this.#router = new Router(routes, this.#mainContentElement);

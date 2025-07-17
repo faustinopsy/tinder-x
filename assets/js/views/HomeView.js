@@ -1,14 +1,17 @@
 import { Card } from '../components/Card.js';
+import { MatchService } from '../services/MatchService.js';
 
 export class HomeView {
     #allProfiles = [];
     #currentIndex = 0;
     #profileService;
     #seenService;
+    #matchService;
 
     constructor(profileService, seenService) {
         this.#profileService = profileService;
         this.#seenService = seenService;
+        this.#matchService = new MatchService();
         this.#allProfiles = profileService.getProfiles();
     }
 
@@ -20,7 +23,7 @@ export class HomeView {
 
         outlet.innerHTML = `
             <div class="card-deck"></div>
-             <div class="actions">
+            <div class="actions">
                 <button class="actions__button actions__button--dislike" data-action="dislike">
                     <svg viewBox="0 0 24 24"><path d="M12 4.419c-2.826-5.2-11.979-3.272-11.979 3.272 0 7.272 9.979 11.271 11.979 13.029 2-1.758 11.979-5.757 11.979-13.029 0-6.544-9.153-8.472-11.979-3.272z" transform="rotate(45 12 12) scale(0.6) translate(10 10)"/></svg>
                 </button>
@@ -33,23 +36,27 @@ export class HomeView {
         const cardDeck = outlet.querySelector('.card-deck');
         
         const loadInitialCards = () => {
-             const batchSize = Math.min(5, this.#allProfiles.length);
-             for (let i = batchSize - 1; i >= 0; i--) {
+            const batchSize = Math.min(5, this.#allProfiles.length);
+            for (let i = batchSize - 1; i >= 0; i--) {
                 const cardComponent = new Card(this.#allProfiles[i]);
                 cardDeck.appendChild(cardComponent.render());
-             }
+            }
         };
 
-        const handleDecision = (action) => {
+        const handleDecision = async (action) => {
             const currentCardElement = cardDeck.lastChild;
             if (!currentCardElement) return;
 
             const swipedProfile = this.#allProfiles[this.#currentIndex];
+            if (!swipedProfile) return;
             
-            if (swipedProfile) {
-                this.#seenService.add(swipedProfile.id);
-            }
+            this.#seenService.add(swipedProfile.id);
 
+            const result = await this.#matchService.sendSwipe(swipedProfile.id, action);
+            
+            if (result.match) {
+                alert(`🎉 É um Match! Você e ${swipedProfile.name} se curtiram!`);
+            }
             const animationClass = action === 'like' ? 'card--dismiss-right' : 'card--dismiss-left';
             currentCardElement.classList.add(animationClass);
 
@@ -68,8 +75,8 @@ export class HomeView {
                 }
                 
                 if (cardDeck.children.length === 0) {
-                     outlet.querySelector('.actions').style.display = 'none';
-                     cardDeck.innerHTML = `<p>Você viu todos os perfis!</p>`;
+                    outlet.querySelector('.actions').style.display = 'none';
+                    cardDeck.innerHTML = `<p>Você viu todos os perfis!</p>`;
                 }
             }, 300);
         };

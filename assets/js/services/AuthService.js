@@ -1,9 +1,9 @@
 export class AuthService {
-    #apiUrl = 'http://localhost:8080';
+    apiUrl = 'http://localhost:8080';
 
     async login(email, password) {
         try {
-            const response = await fetch(`${this.#apiUrl}/login`, {
+            const response = await fetch(`${this.apiUrl}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export class AuthService {
 
     async register(userData) {
         try {
-            const response = await fetch(`${this.#apiUrl}/register`, {
+            const response = await fetch(`${this.apiUrl}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
