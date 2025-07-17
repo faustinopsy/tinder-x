@@ -1,5 +1,5 @@
 export class AuthService {
-    apiUrl = 'http://localhost:8080';
+    apiUrl = 'http://localhost/tindex-x-backend';
 
     async login(email, password) {
         try {

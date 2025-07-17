@@ -8,7 +8,7 @@ import { SettingsView } from '../views/SettingsView.js';
 import { LoginView } from '../views/LoginView.js';
 import { RegisterView } from '../views/RegisterView.js';
 import { MatchesView } from '../views/MatchesView.js';
-
+import { ChatView } from '../views/ChatView.js';
 export class App {
     #profileService;
     #settingsService;
@@ -43,7 +43,7 @@ export class App {
         const routes = [
             { path: '/login', view: (outlet) => new LoginView().render(outlet) },
             { path: '/register', view: (outlet) => new RegisterView(this.#settingsService).render(outlet) },
-
+            { path: '/chat/{matchId}', view: (outlet, params) => new ChatView(params.matchId).render(outlet), protected: true },
             { path: '/', view: (outlet) => new HomeView(this.#profileService, this.#seenService).render(outlet), protected: true },
             { path: '/profile', view: (outlet) => new ProfileView(this.#settingsService).render(outlet), protected: true },
             { path: '/settings', view: (outlet) => new SettingsView(this.#settingsService).render(outlet), protected: true },
